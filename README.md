@@ -66,7 +66,7 @@ name = "amazon_bedrock_test"
 type = "amazon_bedrock_llama"
 token_limit = 4096
 region = "us-east-1"
-model_id = "meta.llama2-13b-chat-v1"
+model = "meta.llama2-13b-chat-v1"
 
 [[stores]]
 name = "memory_test"

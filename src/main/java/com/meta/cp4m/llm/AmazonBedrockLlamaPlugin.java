@@ -67,7 +67,7 @@ public class AmazonBedrockLlamaPlugin<T extends Message> implements LLMPlugin<T>
         }
 
         InvokeModelRequest request = InvokeModelRequest.builder()
-                .modelId(config.modelId())
+                .modelId(config.model())
                 .body(bodySdkBytes)
                 .build();
 

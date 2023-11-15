@@ -23,7 +23,7 @@ import software.amazon.awssdk.regions.Region;
 public class AmazonBedrockLlamaConfig implements LLMConfig {
   private final Region region;
   private final String name;
-  private final String modelId;
+  private final String model;
 
   @Nullable private final Double temperature;
   @Nullable private final Double topP;
@@ -39,7 +39,7 @@ public class AmazonBedrockLlamaConfig implements LLMConfig {
   private AmazonBedrockLlamaConfig(
       Region region,
       String name,
-      String modelId,
+      String model,
       @Nullable Double temperature,
       @Nullable Double topP,
       Long tokenLimit,
@@ -51,7 +51,7 @@ public class AmazonBedrockLlamaConfig implements LLMConfig {
       long maxInputTokens) {
     this.region = region;
     this.name = name;
-    this.modelId = modelId;
+    this.model = model;
     this.temperature = temperature;
     this.topP = topP;
     this.tokenLimit = tokenLimit;
@@ -76,8 +76,8 @@ public class AmazonBedrockLlamaConfig implements LLMConfig {
     return name;
   }
 
-  public String modelId() {
-    return modelId;
+  public String model() {
+    return model;
   }
 
   public Optional<Double> temperature() {
@@ -128,8 +128,7 @@ public class AmazonBedrockLlamaConfig implements LLMConfig {
     private @Nullable Region region;
     private @Nullable String name;
 
-    @JsonProperty("model_id")
-    private String modelId;
+    private String model;
 
     private @Nullable Double temperature;
 
@@ -173,9 +172,9 @@ public class AmazonBedrockLlamaConfig implements LLMConfig {
       return this;
     }
 
-    public @This Builder modelId(String modelId) {
-      Preconditions.checkArgument(!modelId.isBlank(), "model_id cannot be blank");
-      this.modelId = modelId;
+    public @This Builder model(String model) {
+      Preconditions.checkArgument(!model.isBlank(), "model_id cannot be blank");
+      this.model = model;
       return this;
     }
 
@@ -245,7 +244,7 @@ public class AmazonBedrockLlamaConfig implements LLMConfig {
       Objects.requireNonNull(name, "name is a required parameter");
       Objects.requireNonNull(tokenLimit, "token_limit is a required parameter");
       Objects.requireNonNull(region, "region is a required parameter");
-      Objects.requireNonNull(modelId, "model_id is a required parameter");
+      Objects.requireNonNull(model, "model_id is a required parameter");
 
       if (maxOutputTokens != null) {
         Preconditions.checkArgument(
@@ -270,7 +269,7 @@ public class AmazonBedrockLlamaConfig implements LLMConfig {
       return new AmazonBedrockLlamaConfig(
           region,
           name,
-          modelId,
+          model,
           temperature,
           topP,
           tokenLimit,
