@@ -71,19 +71,18 @@ public class AmazonBedrockLlamaPlugin<T extends Message> implements LLMPlugin<T>
                 .body(bodySdkBytes)
                 .build();
 
-        Instant timestamp = Instant.now();
         String llmResponse;
-        try {
-        InvokeModelResponse response = bedrockRuntimeClient.invokeModel(request);
 
-        JsonNode responseBody = MAPPER.readTree(response.body().asUtf8String());
-        String allGeneratedText = responseBody.get("generation").textValue();
-        llmResponse = allGeneratedText.strip().replace(prompt.get().strip(), "");
-        LOGGER.info("Response from Llama: " + llmResponse);
+        try {
+            InvokeModelResponse response = bedrockRuntimeClient.invokeModel(request);
+            JsonNode responseBody = MAPPER.readTree(response.body().asUtf8String());
+            String allGeneratedText = responseBody.get("generation").textValue();
+            llmResponse = allGeneratedText.strip().replace(prompt.get().strip(), "");
         } catch (Exception e) {
+            LOGGER.error("An error occurred calling AWS Bedrock", e);
             llmResponse = "Sorry, I had an issue generating a response to your message.";
         }
 
-        return threadState.newMessageFromBot(timestamp, llmResponse);
+        return threadState.newMessageFromBot(Instant.now(), llmResponse);
     }
 }
