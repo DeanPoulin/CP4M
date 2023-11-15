@@ -56,6 +56,38 @@ store = "memory_test"
 handler = "whatsapp_test"
 ```
 
+##### Example: WhatsApp & Llama 2 (via AWS Bedrock)
+
+```toml
+port = 8080
+
+[[plugins]]
+name = "amazon_bedrock_test"
+type = "amazon_bedrock_llama"
+token_limit = 4096
+region = "us-east-1"
+model_id = "meta.llama2-13b-chat-v1"
+
+[[stores]]
+name = "memory_test"
+type = "memory"
+storage_duration_hours = 1
+storage_capacity_mbs = 1
+
+[[handlers]]
+type = "whatsapp"
+name = "whatsapp_test"
+verify_token = "<your verification token here>"
+app_secret = "<your app secret here>"
+access_token = "<you access token here>"
+
+[[services]]
+webhook_path = "/whatsapp"
+plugin = "amazon_bedrock_test"
+store = "memory_test"
+handler = "whatsapp_test"
+```
+
 ##### Example: Messenger & Llama 2 (via Hugging Face)
 
 ```toml
